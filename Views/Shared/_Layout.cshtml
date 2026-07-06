@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VibeCode AI</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+
+    <!-- Intro Video -->
+    <div id="intro-screen">
+
+        <video id="intro-video"
+               autoplay
+               muted
+               playsinline>
+            <source src="~/videos/intro.mp4" type="video/mp4">
+        </video>
+
+    </div>
+
+    <!-- Website -->
+    <div id="main-content">
+
+        <header>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm custom-navbar">
+        <div class="container-fluid px-4">
+
+            <a class="navbar-brand" asp-controller="Analysis" asp-action="Dashboard">
+                <img src="~/images/logo.png"
+                     alt="VibeCode AI"
+                     class="app-logo" />
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end"
+                 id="navbarNav">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Analysis"
+                           asp-action="Dashboard">
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Analysis"
+                           asp-action="Index">
+                            Analyze
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Analysis"
+                           asp-action="History">
+                            History
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Privacy">
+                            Developer
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+        <div class="container">
+            <main class="py-4">
+                @RenderBody()
+            </main>
+        </div>
+
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

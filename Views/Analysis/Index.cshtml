@@ -1,0 +1,309 @@
+@model VibeCodeAI.ViewModels.AnalysisRequest
+
+@{
+    ViewData["Title"] = "VCAI";
+}
+
+<div class="container-fluid px-4 py-4">
+
+    <!-- Header -->
+
+    <div class="text-center mb-5">
+
+        <img src="~/images/logo.png"
+             class="img-fluid mb-3"
+             style="max-height:300px;" />
+
+        <h5 class="text-secondary">
+            Multi-Agent AI Developer Workspace
+        </h5>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="glass-card stats-card">
+
+                <h6>Total Languages</h6>
+
+                <h2>4</h2>
+
+                <small>Java • Python • C# • C++</small>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="glass-card stats-card">
+
+                <h6>AI Agents</h6>
+
+                <h2>4</h2>
+
+                <small>Reviewer • Bugs • Docs</small>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="glass-card stats-card">
+
+                <h6>Database</h6>
+
+                <h2>MongoDB</h2>
+
+                <small>History Enabled</small>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="glass-card stats-card">
+
+                <h6>AI Model</h6>
+
+                <h2>Gemini</h2>
+
+                <small>2.5 Flash</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- LEFT -->
+
+        <div class="col-lg-5">
+
+            <div class="glass-card p-4">
+
+                <h4 class="mb-4">
+                    Code Analysis
+                </h4>
+
+                <form asp-action="Index" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Language"
+                               class="form-label"></label>
+
+                        <select asp-for="Language"
+                                class="form-select">
+
+                            <option>Java</option>
+                            <option>Python</option>
+                            <option>C#</option>
+                            <option>C++</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Tool"
+                               class="form-label"></label>
+
+                        <select asp-for="Tool"
+                                class="form-select">
+
+                            <option>Code Reviewer</option>
+                            <option>Bug Detector</option>
+                            <option>Code Explainer</option>
+                            <option>Documentation Generator</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="ExplanationLanguage"
+                               class="form-label"></label>
+
+                        <select asp-for="ExplanationLanguage"
+                                class="form-select">
+
+                            <option>English</option>
+                            <option>Tamil</option>
+                            <option>Tanglish</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Level"
+                               class="form-label"></label>
+
+                        <select asp-for="Level"
+                                class="form-select">
+
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Expert</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Code"
+                               class="form-label"></label>
+
+                        <textarea asp-for="Code"
+                                  rows="12"
+                                  class="form-control"
+                                  placeholder="Paste source code here..."></textarea>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label asp-for="Feedback"
+                               class="form-label"></label>
+
+                        <textarea asp-for="Feedback"
+                                  rows="3"
+                                  class="form-control"
+                                  placeholder="Optional feedback"></textarea>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary w-100 btn-lg">
+
+                        Analyze Code
+
+                    </button>
+
+                    <a asp-action="History"
+                       class="btn btn-outline-light w-100 mt-3">
+
+                        View History
+
+                    </a>
+                                    </form>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="col-lg-7">
+
+            <div class="glass-card p-4 response-box">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <h4 class="mb-0">
+                        AI Analysis Report
+                    </h4>
+
+                    @if (ViewBag.Response != null)
+                    {
+                        <button class="btn btn-sm btn-outline-info"
+                                onclick="copyResponse()">
+                            Copy
+                        </button>
+                    }
+
+                </div>
+
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.Success
+                    </div>
+                }
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Error
+                    </div>
+                }
+
+                @if (ViewBag.Response != null)
+                {
+                    <div id="responseText">
+
+                        <pre class="response-pre">
+@ViewBag.Response
+                        </pre>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+
+                        <img src="~/images/logo.png"
+                             style="height:80px;opacity:.35;" />
+
+                        <h5 class="mt-4 text-secondary">
+
+                            Your AI report will appear here
+
+                        </h5>
+
+                        <p class="text-muted">
+
+                            Paste your code and click
+                            <b>Analyze Code</b>
+
+                        </p>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function copyResponse(){
+
+            const text =
+                document.getElementById("responseText").innerText;
+
+            navigator.clipboard.writeText(text);
+
+            alert("Copied!");
+
+        }
+
+    </script>
+
+}

@@ -1,0 +1,152 @@
+@model List<VibeCodeAI.Models.CodeAnalysis>
+
+@{
+    ViewData["Title"] = "Analysis History";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="glass-card mb-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h2 class="mb-1">Analysis History</h2>
+
+                <p class="text-muted mb-0">
+                    Previous AI analysis stored in MongoDB
+                </p>
+
+            </div>
+
+            <a asp-action="Index"
+               class="btn btn-primary">
+
+                New Analysis
+
+            </a>
+
+        </div>
+
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+
+        <div class="glass-card text-center p-5">
+
+            <img src="~/images/logo.png"
+                 class="app-logo mb-4" />
+
+            <h4>No Analysis Found</h4>
+
+            <p class="text-muted">
+                Run your first AI code analysis.
+            </p>
+
+        </div>
+
+    }
+    else
+    {
+
+        <div class="glass-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-dark table-hover align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Language</th>
+                            <th>Agent</th>
+                            <th>Code</th>
+                            <th>AI Response</th>
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+
+                            <tr>
+
+                                <td width="150">
+                                    @item.CreatedAt.ToLocalTime().ToString("dd-MM-yyyy HH:mm")
+                                </td>
+
+                                <td width="90">
+                                    @item.Language
+                                </td>
+
+                                <td width="140">
+                                    @item.Agent
+                                </td>
+
+                                <td style="max-width:260px">
+
+                                    <pre class="response-pre">
+
+@(item.Code.Length>150
+? item.Code.Substring(0,150)+"..."
+: item.Code)
+
+                                    </pre>
+
+                                </td>
+
+                                <td style="max-width:340px">
+
+                                    <pre class="response-pre">
+
+@(item.Response.Length>250
+? item.Response.Substring(0,250)+"..."
+: item.Response)
+
+                                    </pre>
+
+                                </td>
+
+                                <td width="90">
+
+                                    <form asp-action="Delete"
+                                          method="post">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.Id"/>
+
+                                        <button class="btn btn-danger btn-sm w-100"
+                                                onclick="return confirm('Delete this analysis?')">
+
+                                            Delete
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>
